@@ -1,19 +1,18 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
-app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html'); // send HTML file on GET request
-});
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.post('/submit-form', (req, res) => {
-    const username = req.body.username; // access form data
-    // Add validation logic here
-    res.send(`Username is $idiaz6`);
+    const { name, email } = req.body;
+    console.log(`Received submission from ${name} with email ${email}`);
+    res.status(200).send('Form submitted successfully!');
 });
 
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });
